@@ -17,15 +17,26 @@ def find_int(arr):
 
     >>> find_int([0, 2, 4, 5, 1, 3])
     6
+
+    >>> find_int([0, 2, 4, 5, 1, 3, 6, 8])
+    7
+
+    >>> find_int([])
+    0
+
     """
+
     arr2 = {}
 
-    if len(arr) == sys.maxint + 1:
+    # If the length of the array is equal to the maximum allowed integers, there are no missing integers in the array.
+    if len(arr) == sys.maxint:
         return None
 
+    # Create an O(1) lookup hashtable using the integers from the array as the key, and set the value to True
     for i in range(len(arr)):
         arr2[arr[i]] = True
 
+    # Loop through the length of the array + 1 and check if the number is a key in the hashtable. If it isn't return that number.
     for i in range(len(arr) + 1):
         if not arr2.get(i):
             return i
@@ -35,4 +46,4 @@ def find_int(arr):
 print find_int(arr)
 
 
-# O(n) solution
+# Runtime: O(n)
