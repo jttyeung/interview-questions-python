@@ -26,12 +26,6 @@ def is_anagram_of_palindrome(word):
 
     # Runtime: O(n)
 
-    if len(word) == 1:
-        return True
-
-    if len(word) == 2 and word.count(word[0]) < 1:
-        return False
-
     word_dict = {}
 
     for l in word:
