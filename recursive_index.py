@@ -80,17 +80,17 @@ def recursive_index_3(needle, haystack):
     True
     """
 
-    def _recursive_index_3(needle, haystack, count=0):
+    def _recursive_index_3(needle, haystack, count):
 
-        if not haystack:
+        if len(haystack) == count:
             return None
 
-        if needle == haystack[0]:
-            return 0
+        if needle == haystack[count]:
+            return count
 
         return _recursive_index_3(needle, haystack, count+1)
 
-    return recursive_index(needle, haystack)
+    return _recursive_index_3(needle, haystack, 0)
 
 
 
