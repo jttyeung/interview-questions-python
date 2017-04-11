@@ -6,14 +6,15 @@
 
 import sys
 
-arr = [0, 2, 1, 3, 4, 5, 11, 32, 42, 50, 100, 6]
-
 
 def find_int(arr):
     """ Takes an array and returns a non-negative integer that is not in the original array. Returns null if all integers are in the array.
 
     Runtime: O(n)
     Spacetime: O(n)
+
+    >>> find_int([0, 2, 1, 3, 4, 5, 11, 32, 42, 50, 100, 6])
+    7
 
     >>> find_int([2, 4, 5, 1, 3])
     0
@@ -46,5 +47,11 @@ def find_int(arr):
 
     return None
 
-print find_int(arr)
+
+if __name__ == '__main__':
+    import doctest
+    results = doctest.testmod()
+
+    if results.failed == 0:
+        print 'ALL TESTS PASSED!'
 
