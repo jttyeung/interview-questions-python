@@ -14,6 +14,20 @@ def add_to_zero(nums):
     True
     """
 
+    # Runtime: O(n)
+    # Spacetime: O(n)
+
+    if len(nums) < 2:
+        return False
+
+    num_set = set(nums)
+
+    for num in nums:
+        if -num in num_set:
+            return True
+
+    return False
+
 
 
 if __name__ == '__main__':
