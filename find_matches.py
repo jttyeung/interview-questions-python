@@ -1,5 +1,6 @@
 import sys
 import csv
+import re
 
 input_file = sys.argv[1]
 matching_type = sys.argv[2].lower()
@@ -60,11 +61,20 @@ def find_matches(input_file, matching_type):
 
             # Write subsequent rows to new file with id value from ids dictionary
             for row in reader:
-                email = row[email_col].lower()
-                ids[email] = ids.get(email, id)
-                row = [ids[email]] + row
+                # Clean phone numbers to 10 digit integers before finding matches
+                phone_num = re.sub('\D+','',row[phone_col])
+                if len(phone_num) > 10:
+                    phone_num = phone_num[1:]
+                ids[phone_num] = ids.get(phone_num, id)
+                row = [ids[phone_num]]  + row
                 writer.writerow(row)
                 id += 1
+
+                # email = row[email_col].lower()
+                # ids[email] = ids.get(email, id)
+                # row = [ids[email]] + row
+                # writer.writerow(row)
+                # id += 1
 
 
 
