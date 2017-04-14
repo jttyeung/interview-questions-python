@@ -60,11 +60,12 @@ def find_matches(input_file, matching_type):
 
             # Write subsequent rows to new file with id value from ids dictionary
             for row in reader:
-                email = row[email_col]
+                email = row[email_col].lower()
                 ids[email] = ids.get(email, id)
                 row = [ids[email]] + row
                 writer.writerow(row)
                 id += 1
+
 
 
 
