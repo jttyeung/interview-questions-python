@@ -36,18 +36,16 @@ def find_matches(input_file, matching_type):
                 break
 
         # Get the column number for email
-        if matching_type == 'email':
-            for col in range(len(header)):
-                if 'email' in header[col].lower():
-                    email_col = col
+        for col in range(len(header)):
+            if 'email' in header[col].lower():
+                email_col = col
 
         # Get the column number for phone(s)
-        if matching_type == 'phone':
-            for col in range(len(header)):
-                if 'phone2' in header[col].lower():
-                    phone_col_2 = col
-                if 'phone1' in header[col].lower() or 'phone' == header[col].lower():
-                    phone_col = col
+        for col in range(len(header)):
+            if 'phone2' in header[col].lower():
+                phone_col_2 = col
+            if 'phone1' in header[col].lower() or 'phone' == header[col].lower():
+                phone_col = col
 
         # Iterate through each row (excluding header) to find matches
         with open('output_file.csv', 'w') as csv_file_out:
@@ -62,15 +60,24 @@ def find_matches(input_file, matching_type):
             # Write subsequent rows to new file with id value from ids dictionary
             for row in reader:
                 # Clean phone numbers to 10 digit integers before finding matches
-                phone_num = re.sub('\D+','',row[phone_col])
-                if len(phone_num) > 10:
-                    phone_num = phone_num[1:]
+                if matching_type == 'phone':
+                    phone_num = re.sub('\D+','',row[phone_col])
+                    if len(phone_num) > 10:
+                        phone_num = phone_num[1:]
+                        match_key = phone_num
+                        print match_key
+
+                if matching_type == 'email':
+                    email = row[email_col].lower()
+                    match_key = email
+
+
                 ids[phone_num] = ids.get(phone_num, id)
                 row = [ids[phone_num]]  + row
                 writer.writerow(row)
                 id += 1
 
-                # email = row[email_col].lower()
+
                 # ids[email] = ids.get(email, id)
                 # row = [ids[email]] + row
                 # writer.writerow(row)
