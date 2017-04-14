@@ -26,6 +26,7 @@ def find_matches(input_file, matching_type):
 
         # Keep track of entry duplicates/key assignments
         ids = {}
+        key = 0
         id = 1
 
         # Declare the header for the file
@@ -61,27 +62,20 @@ def find_matches(input_file, matching_type):
             for row in reader:
                 # Clean phone numbers to 10 digit integers before finding matches
                 if matching_type == 'phone':
-                    phone_num = re.sub('\D+','',row[phone_col])
-                    if len(phone_num) > 10:
-                        phone_num = phone_num[1:]
-                        match_key = phone_num
-                        print match_key
+                    key = re.sub('\D+','',row[phone_col])
+                    if len(key) > 10:
+                        key = key[1:]
 
                 if matching_type == 'email':
-                    email = row[email_col].lower()
-                    match_key = email
+                    key = row[email_col].lower()
 
 
-                ids[phone_num] = ids.get(phone_num, id)
-                row = [ids[phone_num]]  + row
+                ids[key] = ids.get(key, id)
+                row = [ids[key]] + row
                 writer.writerow(row)
                 id += 1
 
 
-                # ids[email] = ids.get(email, id)
-                # row = [ids[email]] + row
-                # writer.writerow(row)
-                # id += 1
 
 
 
