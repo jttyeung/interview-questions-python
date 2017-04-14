@@ -38,6 +38,16 @@ def reverse_linked_list(head):
     '321'
     """
 
+    current = head
+
+    while current.next is not None:
+        current = current.next
+
+    new_ll = Node(current)
+
+    while current.next is not None:
+        new_ll
+
 
 
 if __name__ == '__main__':
