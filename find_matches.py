@@ -4,8 +4,9 @@ import csv
 input_file = sys.argv[1]
 matching_type = sys.argv[2].lower()
 
+
 def find_matches(input_file, matching_type):
-    """ Takes an input file and a matching type and returns a copy of the original CSV file with the unique identifier of the person each row represents prepended to the row.
+    """ Takes a .csv input file and a matching type and returns a copy of the original csv with the unique identifier of the person each row represents prepended to the row.
 
     Matching types:
     > email
@@ -22,7 +23,7 @@ def find_matches(input_file, matching_type):
         phone_col = None
         phone_col_2 = None  # For secondary phone column if it exists
 
-        # Keep track of file duplicates/key assignments
+        # Keep track of entry duplicates/key assignments
         ids = {}
         id = 1
 
@@ -57,15 +58,13 @@ def find_matches(input_file, matching_type):
             # Write header row to new file
             writer.writerow(header)
 
-            # Write subsequent rows to new file with id value
+            # Write subsequent rows to new file with id value from ids dictionary
             for row in reader:
                 email = row[email_col]
                 ids[email] = ids.get(email, id)
                 row = [ids[email]] + row
                 writer.writerow(row)
-
                 id += 1
-                rownum += 1
 
 
 
