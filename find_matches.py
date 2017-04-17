@@ -21,9 +21,13 @@ def find_matches(input_file, matching_type):
         rownum = 0
         header = None
         email_col = None
-        email_col_2 = None
+        email_col_2 = None  # For secondary email column if it exists
         phone_col = None
         phone_col_2 = None  # For secondary phone column if it exists
+        key1 = None
+        key2 = None
+        key3 = None
+        key4 = None
 
         # Keep track of entry duplicates/key assignments
         ids = {}
@@ -67,18 +71,23 @@ def find_matches(input_file, matching_type):
                 # Clean phone numbers to 10 digit integers before finding matches
                 # Assigns the phone number as the dictionary key
                 if matching_type == 'phone':
-                    key1 = re.sub('\D+','',row[phone_col])
-                    if len(key1) > 10:
-                        key1 = key1[1:]
+                    if phone_col:
+                        key1 = re.sub('\D+','',row[phone_col])
+                        if len(key1) > 10:
+                            key1 = key1[1:]
 
-                    key2 = re.sub('\D+','',row[phone_col_2])
-                    if len(key2) > 10:
-                        key2 = key2[1:]
+                    if phone_col_2:
+                        key2 = re.sub('\D+','',row[phone_col_2])
+                        if len(key2) > 10:
+                            key2 = key2[1:]
+
 
                 # Assigns the email as the dictionary key
                 if matching_type == 'email':
-                    key1 = row[email_col].lower()
-                    key2 = row[email_col_2].lower()
+                    if email_col:
+                        key1 = row[email_col].lower()
+                    if email_col_2:
+                        key2 = row[email_col_2].lower()
 
                 if matching_type == 'email' or matching_type == 'phone':
                     # Pairs the email/phone with an id in the dictionary if one exists
@@ -93,6 +102,8 @@ def find_matches(input_file, matching_type):
                             row_ids = '{},{}'.format(ids[key1], ids[key2])
                         else:
                             row_ids = ids[key1]
+                    elif not key1 and not key2:
+                        row_ids = None
                     elif not key1:
                         row_ids = ids[key2]
                     elif not key2:
@@ -100,16 +111,20 @@ def find_matches(input_file, matching_type):
 
 
                 if matching_type == 'email_phone':
-                    key1 = re.sub('\D+','',row[phone_col])
-                    if len(key1) > 10:
-                        key1 = key1[1:]
+                    if phone_col:
+                        key1 = re.sub('\D+','',row[phone_col])
+                        if len(key1) > 10:
+                            key1 = key1[1:]
 
-                    key2 = re.sub('\D+','',row[phone_col_2])
-                    if len(key2) > 10:
-                        key2 = key2[1:]
+                    if phone_col_2:
+                        key2 = re.sub('\D+','',row[phone_col_2])
+                        if len(key2) > 10:
+                            key2 = key2[1:]
 
-                    key3 = row[email_col].lower()
-                    key4 = row[email_col_2].lower()
+                    if email_col:
+                        key3 = row[email_col].lower()
+                    if email_col_2:
+                        key4 = row[email_col_2].lower()
 
                     row_ids = set()
 
