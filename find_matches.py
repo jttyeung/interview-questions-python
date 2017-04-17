@@ -99,7 +99,8 @@ def find_matches(input_file, matching_type):
                     # Determines the id values in each row
                     if key1 and key2:
                         if ids[key1] != ids[key2]:
-                            row_ids = '{},{}'.format(ids[key1], ids[key2])
+                            # row_ids = '{},{}'.format(ids[key1], ids[key2])
+                            row_ids = ids[key1]
                         else:
                             row_ids = ids[key1]
                     elif not key1 and not key2:
