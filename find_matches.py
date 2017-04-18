@@ -68,6 +68,7 @@ class FindMatches(object):
             else:
                 print "Please use a valid matching type: 'email', 'phone', or 'email_phone'."
             self.id += 1
+        print ids
 
 ###  could probably combine both email and phone match into one thing.
 ###  use a parameter to take matching type into function and use it?
@@ -88,8 +89,12 @@ class FindMatches(object):
     def phone_match(self, row):
         """ Creates phone tuples and insert unique tuples into the ids dictionary. """
 
+        formatted_phone_col = re.sub('\D+','',row[phone_col])
+        formatted_phone_col_2 = re.sub('\D+','',row[phone_col_2])
+
+        formatted_phone_col = formatted_phone_col[1:] if len(formatted_phone_col) > 10
         # Creates a sorted list of emails
-        ids_key = sorted([row[self.phone_col].lower(), row[self.phone_col_2].lower()])
+        ids_key = sorted([row[self.phone_col].lower(), row[self.phone_col_2]])
         # Puts list of emails into a tuple for the dictionary
         ids_key = tuple(ids_key)
         # Places keys into dictionary
@@ -112,6 +117,8 @@ class FindMatches(object):
 
             row_is_header = False
 
+
+###  fix this
         # Gets the row id value from the dictionary:
         row_id = self.ids[]
 
