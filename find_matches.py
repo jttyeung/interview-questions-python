@@ -4,7 +4,7 @@ import re
 
 
 class FindMatches(object):
-    """ Takes a .csv input file and a matching type.
+    """ Takes a .csv input file and a matching type and returns a copy of the original csv with the unique identifier of the person each row represents prepended to the row.
 
     Matching types:
     > email
@@ -74,8 +74,6 @@ class FindMatches(object):
         # Write to csv after all ids are assigned
         self.write_csv(self.reader, self.header)
 
-###  could probably combine both email and phone match into one thing.
-###  use a parameter to take matching type into function and use it?
 
     def email_match(self, row):
         """ Creates email tuples and insert unique tuples into the ids dictionary. """
@@ -113,7 +111,7 @@ class FindMatches(object):
 
 
     def write_csv(self, reader, header, row_is_header=True):
-        # Create a new file with a csv writer
+        """ Using a csv writer, creates a copy of the file with unique ids prepended to each row. """
         csv_file_out = open('output_file.csv', 'w')
         writer = csv.writer(csv_file_out)
 
