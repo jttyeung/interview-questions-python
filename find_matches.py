@@ -111,43 +111,42 @@ class FindMatches(object):
             email_row_id = None
             phone_row_id = None
 
-            # # If the matching type is 'email'
-            # if self.matching_type == 'email':
-            #     # See if a second email column exists
-            #     if row[self.email_col_2]:
-            #         if row[self.email_col_2]:
-            #             ids_key = self.email_match(row, self.email_col_2)
-            #             self.add_key_to_dict(ids_key, self.id)
+            # If the matching type is 'email'
+            if self.matching_type == 'email':
+                # See if a second email column exists
+                if row[self.email_col_2]:
+                    if row[self.email_col_2]:
+                        ids_key = self.email_match(row, self.email_col_2)
+                        self.add_key_to_dict(ids_key, self.id)
 
-            #             if self.ids.get(ids_key):
-            #                 row_id = self.ids.get(ids_key)
+                        if self.ids.get(ids_key):
+                            row_id = self.ids.get(ids_key)
 
-            #     if row[self.email_col] and row_id is None:
-            #         ids_key = self.email_match(row, self.email_col)
-            #         self.add_key_to_dict(ids_key, self.id)
-            #         row_id = self.ids.get(ids_key, self.id)
+                if row[self.email_col] and row_id is None:
+                    ids_key = self.email_match(row, self.email_col)
+                    self.add_key_to_dict(ids_key, self.id)
+                    row_id = self.ids.get(ids_key, self.id)
 
 
-            # # If the matching type is 'phone'
-            # elif self.matching_type == 'phone':
-            #     # See if a second phone column exists
-            #     if row[self.phone_col_2]:
-            #         if row[self.phone_col_2]:
-            #             ids_key = self.phone_match(row, self.phone_col_2)
-            #             self.add_key_to_dict(ids_key, self.id)
+            # If the matching type is 'phone'
+            elif self.matching_type == 'phone':
+                # See if a second phone column exists
+                if row[self.phone_col_2]:
+                    if row[self.phone_col_2]:
+                        ids_key = self.phone_match(row, self.phone_col_2)
+                        self.add_key_to_dict(ids_key, self.id)
 
-            #             if self.ids.get(ids_key):
-            #                 row_id = self.ids.get(ids_key)
+                        if self.ids.get(ids_key):
+                            row_id = self.ids.get(ids_key)
 
-            #     if row[self.phone_col] and row_id is None:
-            #         ids_key = self.phone_match(row, self.phone_col)
-            #         self.add_key_to_dict(ids_key, self.id)
-            #         row_id = self.ids.get(ids_key, self.id)
+                if row[self.phone_col] and row_id is None:
+                    ids_key = self.phone_match(row, self.phone_col)
+                    self.add_key_to_dict(ids_key, self.id)
+                    row_id = self.ids.get(ids_key, self.id)
 
 
             # If the matching type is email OR phone
-            # elif self.matching_type == 'email_phone':
-            if self.matching_type == 'email_phone' or self.matching_type == 'email' or self.matching_type == 'phone':
+            elif self.matching_type == 'email_phone':
 
                 email2 = self.email_match(row, self.email_col_2)
                 email1 =  self.email_match(row, self.email_col)
