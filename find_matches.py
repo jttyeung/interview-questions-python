@@ -15,8 +15,13 @@ class FindMatches(object):
     def __init__(self, input_file, matching_type):
         """ Opens the csv file and declares the phone and email columns. """
 
-        self.input_file = input_file
+        # Check if matching_type input is valid
         self.matching_type = matching_type.lower()
+        if self.matching_type not in ['email', 'phone', 'email_phone']:
+            print "Please use a valid matching type: 'email', 'phone', or 'email_phone'."
+
+        # Initialize variables for later assignment
+        self.input_file = input_file
         self.rownum = 0
         self.header = None
         self.email_col = None
@@ -24,7 +29,7 @@ class FindMatches(object):
         self.phone_col = None
         self.phone_col_2 = None
 
-        # Keep track of entry duplicates/key assignments
+        # Keep track of entry duplicates/key assignments via ids dictionary
         self.ids = {}
         self.id = 1
 
@@ -53,22 +58,21 @@ class FindMatches(object):
             if 'phone1' in self.header[col].lower() or 'phone' == self.header[col].lower():
                 self.phone_col = col
 
-        # Runs matching type tests based on match type given and writes it to a csv
+        # Runs matching type tests based on match type given
         for row in reader:
             if self.matching_type == 'email':
                 self.email_match(row)
-                self.write_csv(row, self.header)
             elif self.matching_type == 'phone':
                 self.phone_match(row)
-                self.write_csv(row, self.header)
             elif self.matching_type == 'email_phone':
                 self.email_match(row)
                 self.phone_match(row)
-                self.write_csv(row, self.header)
-            else:
-                print "Please use a valid matching type: 'email', 'phone', or 'email_phone'."
+
+            # Increments id in ids dictionary for unique row ids
             self.id += 1
-        print self.ids
+
+        # Write to csv after all ids are assigned
+        self.write_csv(self.reader, self.header)
 
 ###  could probably combine both email and phone match into one thing.
 ###  use a parameter to take matching type into function and use it?
@@ -108,7 +112,7 @@ class FindMatches(object):
         self.ids[ids_key] = self.ids.get(ids_key, self.id)
 
 
-    def write_csv(self, row, header, row_is_header=True):
+    def write_csv(self, reader, header, row_is_header=True):
         # Create a new file with a csv writer
         csv_file_out = open('output_file.csv', 'w')
         writer = csv.writer(csv_file_out)
@@ -122,10 +126,9 @@ class FindMatches(object):
 
             row_is_header = False
 
-
-###  fix this
         # Gets the row id value from the dictionary:
-        # row_id = self.ids[]
+        for row in reader:
+            row_id = phone_match
 
         # # Writes the new row: id of the row + copied csv row
         # new_row = [row_id] + row
