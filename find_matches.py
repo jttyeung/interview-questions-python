@@ -68,7 +68,7 @@ class FindMatches(object):
             else:
                 print "Please use a valid matching type: 'email', 'phone', or 'email_phone'."
             self.id += 1
-        print ids
+        print self.ids
 
 ###  could probably combine both email and phone match into one thing.
 ###  use a parameter to take matching type into function and use it?
@@ -89,12 +89,17 @@ class FindMatches(object):
     def phone_match(self, row):
         """ Creates phone tuples and insert unique tuples into the ids dictionary. """
 
-        formatted_phone_col = re.sub('\D+','',row[phone_col])
-        formatted_phone_col_2 = re.sub('\D+','',row[phone_col_2])
+        # Removes formatting of phone numbers for direct comparison
+        format_phone_col = re.sub('\D+','',row[self.phone_col])
+        format_phone_col_2 = re.sub('\D+','',row[self.phone_col_2])
 
-        formatted_phone_col = formatted_phone_col[1:] if len(formatted_phone_col) > 10
+        if len(format_phone_col) > 10:
+            format_phone_col[1:]
+        if len(format_phone_col_2) > 10:
+            format_phone_col_2[1:]
+
         # Creates a sorted list of emails
-        ids_key = sorted([row[self.phone_col].lower(), row[self.phone_col_2]])
+        ids_key = sorted([format_phone_col, format_phone_col_2])
         # Puts list of emails into a tuple for the dictionary
         ids_key = tuple(ids_key)
         # Places keys into dictionary
@@ -120,11 +125,11 @@ class FindMatches(object):
 
 ###  fix this
         # Gets the row id value from the dictionary:
-        row_id = self.ids[]
+        # row_id = self.ids[]
 
-        # Writes the new row: id of the row + copied csv row
-        new_row = [row_id] + row
-        writer.writerow(new_row)
+        # # Writes the new row: id of the row + copied csv row
+        # new_row = [row_id] + row
+        # writer.writerow(new_row)
 
 
 FindMatches(input_file=sys.argv[1], matching_type=sys.argv[2])
