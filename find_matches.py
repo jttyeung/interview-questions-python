@@ -114,7 +114,7 @@ class FindMatches(object):
             # If the matching type is 'email'
             if self.matching_type == 'email':
                 # See if a second email column exists
-                if row[self.email_col_2]:
+                if self.email_col_2:
                     if row[self.email_col_2]:
                         ids_key = self.email_match(row, self.email_col_2)
                         self.add_key_to_dict(ids_key, self.id)
@@ -131,7 +131,7 @@ class FindMatches(object):
             # If the matching type is 'phone'
             elif self.matching_type == 'phone':
                 # See if a second phone column exists
-                if row[self.phone_col_2]:
+                if self.phone_col_2:
                     if row[self.phone_col_2]:
                         ids_key = self.phone_match(row, self.phone_col_2)
                         self.add_key_to_dict(ids_key, self.id)
@@ -148,10 +148,20 @@ class FindMatches(object):
             # If the matching type is email OR phone
             elif self.matching_type == 'email_phone':
 
-                email2 = self.email_match(row, self.email_col_2)
-                email1 =  self.email_match(row, self.email_col)
-                phone2 = self.phone_match(row, self.phone_col_2)
-                phone1 = self.phone_match(row, self.phone_col)
+                email2 = None
+                email1 = None
+                phone2 = None
+                phone1 = None
+
+                if self.email_col_2:
+                    email2 = self.email_match(row, self.email_col_2)
+                if self.email_col:
+                    email1 = self.email_match(row, self.email_col)
+                if self.phone_col_2:
+                    phone2 = self.phone_match(row, self.phone_col_2)
+                if self.phone_col:
+                    phone1 = self.phone_match(row, self.phone_col)
+
                 if email2 in self.ids or email1 in self.ids or phone2 in self.ids or phone1 in self.ids:
 
                     email2_exists = self.ids.get(email2)
@@ -163,21 +173,26 @@ class FindMatches(object):
                     min_id = min(id for id in id_values if id is not None)
                     row_id = min_id
 
-                    if row[self.email_col_2]:
-                        ids_key = self.email_match(row, self.email_col_2)
-                        self.add_key_to_dict(ids_key, min_id)
+                    if self.email_col_2:
+                        if row[self.email_col_2]:
+                            ids_key = self.email_match(row, self.email_col_2)
+                            self.add_key_to_dict(ids_key, min_id)
 
                     if row[self.email_col]:
-                        ids_key = self.email_match(row, self.email_col)
-                        self.add_key_to_dict(ids_key, min_id)
+                        if row[self.email_col]:
+                            ids_key = self.email_match(row, self.email_col)
+                            self.add_key_to_dict(ids_key, min_id)
 
-                    if row[self.phone_col_2]:
-                        ids_key = self.phone_match(row, self.phone_col_2)
-                        self.add_key_to_dict(ids_key, min_id)
 
-                    if row[self.phone_col] and row_id is None:
-                        ids_key = self.phone_match(row, self.phone_col)
-                        self.add_key_to_dict(ids_key, min_id)
+                    if self.phone_col_2:
+                        if row[self.phone_col_2]:
+                            ids_key = self.phone_match(row, self.phone_col_2)
+                            self.add_key_to_dict(ids_key, min_id)
+
+                    if self.phone_col:
+                        if row[self.phone_col] and row_id is None:
+                            ids_key = self.phone_match(row, self.phone_col)
+                            self.add_key_to_dict(ids_key, min_id)
 
 
                 else:
