@@ -66,11 +66,15 @@ class FindMatches(object):
         """ Creates email tuples and insert unique tuples into the ids dictionary. """
 
         row_id = None
+
+        # Checks if a second email column exists
         if self.email_col_2:
+            # Checks if value exists in second email column/row, and assigns it as the key
             if row[self.email_col_2]:
                 ids_key = row[self.email_col_2]
                 self.add_key_to_dict(ids_key, self.id)
 
+                # If key exists in dictionary, assign it the row_id
                 if self.ids.get(ids_key):
                     row_id = self.ids.get(ids_key)
 
@@ -86,8 +90,10 @@ class FindMatches(object):
         """ Creates phone tuples and insert unique tuples into the ids dictionary. """
 
         row_id = None
-        # Removes formatting of phone numbers for direct comparison
+
         def format_phone(column):
+            """ Removes formatting of phone numbers for direct comparison. """
+
             format_phone_col = re.sub('\D+','',row[column])
 
             if len(format_phone_col) > 10:
@@ -95,12 +101,14 @@ class FindMatches(object):
 
             return format_phone_col
 
-
+        #  Checks if a second phone column exists
         if self.phone_col_2:
+            # Checks if value exists in second phone column/row, and assigns it as the key
             if row[self.phone_col_2]:
                 ids_key = format_phone(self.phone_col_2)
                 self.add_key_to_dict(ids_key, self.id)
 
+                # If key exists in dictionary, assign it the row_id
                 if self.ids.get(ids_key):
                     row_id = self.ids.get(ids_key)
 
