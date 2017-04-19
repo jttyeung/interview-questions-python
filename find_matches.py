@@ -212,85 +212,18 @@ class FindMatches(object):
             elif self.matching_type == 'phone':
                 # See if a second phone column exists
                 row_id = self.phone_match(row)
-                print 'rowwwwwwww', row_id
 
 
             # If the matching type is email OR phone
             elif self.matching_type == 'email_phone':
+                row_id_email = self.email_match(row)
+                row_id_phone = self.phone_match(row)
 
-                email2 = None
-                email1 = None
-                phone2 = None
-                phone1 = None
-
-                if self.email_col_2:
-                    email2 = self.email_match(row)
-                if self.email_col:
-                    email1 = self.email_match(row)
-                if self.phone_col_2:
-                    phone2 = self.phone_match(row)
-                if self.phone_col:
-                    phone1 = self.phone_match(row)
-
-                if email2 in self.ids or email1 in self.ids or phone2 in self.ids or phone1 in self.ids:
-
-                    email2_exists = self.ids.get(email2)
-                    email_exists = self.ids.get(email1)
-                    phone2_exists = self.ids.get(phone2)
-                    phone_exists = self.ids.get(phone1)
-
-                    id_values = [email2_exists, email_exists, phone2_exists, phone_exists]
-                    min_id = min(id for id in id_values if id is not None)
-                    row_id = min_id
-
-                    if self.email_col_2:
-                        if row[self.email_col_2]:
-                            ids_key = self.email_match(row)
-                            self.add_key_to_dict(ids_key, min_id)
-
-                    if row[self.email_col]:
-                        if row[self.email_col]:
-                            ids_key = self.email_match(row)
-                            self.add_key_to_dict(ids_key, min_id)
-
-
-                    if self.phone_col_2:
-                        if row[self.phone_col_2]:
-                            ids_key = self.phone_match(row)
-                            self.add_key_to_dict(ids_key, min_id)
-
-                    if self.phone_col:
-                        if row[self.phone_col] and row_id is None:
-                            ids_key = self.phone_match(row)
-                            self.add_key_to_dict(ids_key, min_id)
-
-
+                if row_id_email < row_id_phone:
+                    row_id = row_id_email
                 else:
-                    if self.email_col_2:
-                        if row[self.email_col_2]:
-                            ids_key = self.email_match(row)
-                            self.add_key_to_dict(ids_key, self.id)
+                    row_id = row_id_phone
 
-                            if self.ids.get(ids_key):
-                                row_id = self.ids.get(ids_key)
-
-                    if row[self.email_col]:
-                        ids_key = self.email_match(row)
-                        self.add_key_to_dict(ids_key, self.id)
-                        row_id = self.ids.get(ids_key, self.id)
-
-                    if self.phone_col_2:
-                        if row[self.phone_col_2]:
-                            ids_key = self.phone_match(row)
-                            self.add_key_to_dict(ids_key, self.id)
-
-                            if self.ids.get(ids_key):
-                                row_id = self.ids.get(ids_key)
-
-                    if row[self.phone_col]:
-                        ids_key = self.phone_match(row)
-                        self.add_key_to_dict(ids_key, self.id)
-                        row_id = self.ids.get(ids_key, self.id)
 
             print self.ids
             new_row = [row_id] + row
