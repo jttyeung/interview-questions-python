@@ -291,7 +291,9 @@ class FindMatches(object):
                         self.add_key_to_dict(ids_key, self.id)
                         row_id = self.ids.get(ids_key, self.id)
 
-            print self.ids
+                if row_id is None:
+                    row_id = self.id
+
             new_row = [row_id] + row
             writer.writerow(new_row)
 
