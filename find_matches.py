@@ -67,30 +67,31 @@ class FindMatches(object):
 
         row_id = None
 
-
         # Assigns the id value to min_id if it exists, otherwise assigns it the next id value available
         if min_id:
-            id = min_id
+            iden = min_id
         else:
-            id = self.id
+            iden = self.id
 
         # Checks if a second email column exists
         if self.email_col_2:
             # Checks if value exists in second email column/row, and assigns it as the key
             if row[self.email_col_2]:
                 email2 = row[self.email_col_2]
-                self.add_key_to_dict(email2, id)
+                self.add_key_to_dict(email2, iden)
 
                 # If key exists in dictionary, assign it the row_id
                 if self.ids.get(email2):
                     row_id = self.ids.get(email2)
 
+        # Checks if value exists in first email column/row, and assigns it as the key
         if row[self.email_col]:
             email1 = row[self.email_col]
-            self.add_key_to_dict(email1, id)
+            # Sets the row_id to the minimum common value if it exists, otherwise sets it to the next available identifier value
+            self.add_key_to_dict(email1, iden)
             row_id = self.ids.get(email1, self.id)
 
-
+        # If no value in the field, sets the row_id to the next available identifier value
         if row_id is None:
             row_id = self.id
 
@@ -107,24 +108,24 @@ class FindMatches(object):
 
             return format_phone_col
 
+
     def phone_match(self, row, min_id):
         """ Creates phone tuples and insert unique tuples into the ids dictionary. """
 
         row_id = None
 
-
         # Assigns the id value to min_id if it exists, otherwise assigns it the next id value available
         if min_id:
-            id = min_id
+            iden = min_id
         else:
-            id = self.id
+            iden = self.id
 
-        #  Checks if a second phone column exists
+        # Checks if a second phone column exists
         if self.phone_col_2:
             # Checks if value exists in second phone column/row, and assigns it as the key
             if row[self.phone_col_2]:
                 ids_key = self.format_phone(row, self.phone_col_2)
-                self.add_key_to_dict(ids_key, id)
+                self.add_key_to_dict(ids_key, iden)
 
                 # If key exists in dictionary, assign it the row_id
                 if self.ids.get(ids_key):
@@ -132,19 +133,21 @@ class FindMatches(object):
 
         if row[self.phone_col]:
             ids_key = self.format_phone(row, self.phone_col)
-            self.add_key_to_dict(ids_key, id)
+            # Sets the row_id to the minimum common value if it exists, otherwise sets it to the next available identifier value
+            self.add_key_to_dict(ids_key, iden)
             row_id = self.ids.get(ids_key, self.id)
 
+        # If no value in the field, sets the row_id to the next available identifier value
         if row_id is None:
             row_id = self.id
 
         return row_id
 
 
-    def add_key_to_dict(self, ids_key, id):
+    def add_key_to_dict(self, ids_key, iden):
         """ Places keys into a dictionary. If the key exists the key-value pair does not change. Otherwise, place it in the dictionary and assign it a new id. """
 
-        self.ids[ids_key] = self.ids.get(ids_key, id)
+        self.ids[ids_key] = self.ids.get(ids_key, iden)
 
 
     def write_csv(self, reader, header, row_is_header=True):
@@ -185,8 +188,9 @@ class FindMatches(object):
                     email2_exists = self.ids.get(email2)
                     email_exists = self.ids.get(email1)
 
+                    # If multiple values exist, find the lowest and set that to min_id (row_id)
                     id_values = [email2_exists, email_exists]
-                    min_id = min(id for id in id_values if id is not None)
+                    min_id = min(iden for iden in id_values if iden is not None)
 
                 # See if a second email column exists
                 row_id = self.email_match(row, min_id)
@@ -211,8 +215,9 @@ class FindMatches(object):
                     phone2_exists = self.ids.get(phone2)
                     phone_exists = self.ids.get(phone1)
 
+                    # If multiple values exist, find the lowest and set that to min_id (row_id)
                     id_values = [phone2_exists, phone_exists]
-                    min_id = min(id for id in id_values if id is not None)
+                    min_id = min(iden for iden in id_values if iden is not None)
 
                 # See if a second phone column exists
                 row_id = self.phone_match(row, min_id)
@@ -244,8 +249,9 @@ class FindMatches(object):
                     phone2_exists = self.ids.get(phone2)
                     phone_exists = self.ids.get(phone1)
 
+                    # If multiple values exist, find the lowest and set that to min_id (row_id)
                     id_values = [email2_exists, email_exists, phone2_exists, phone_exists]
-                    min_id = min(id for id in id_values if id is not None)
+                    min_id = min(iden for iden in id_values if iden is not None)
                     row_id = min_id
 
                 email_row_id = self.email_match(row, min_id)
@@ -256,6 +262,7 @@ class FindMatches(object):
                 else:
                     row_id = phone_row_id
 
+            # Writes a new row with the id appended
             new_row = [row_id] + row
             writer.writerow(new_row)
 
