@@ -66,22 +66,49 @@ class FindMatches(object):
         """ Creates email tuples and insert unique tuples into the ids dictionary. """
 
         row_id = None
+        email2 = None
+        email1 = None
+        min_id = None
+
+        # Check if email columns exist
+        if self.email_col_2:
+            email2 = row[self.email_col_2]
+        if self.email_col:
+            email1 = row[self.email_col]
+
+        # Check if either email is in ids dictionary, get the value
+        if email2 in self.ids or email1 in self.ids:
+            email2_exists = self.ids.get(email2)
+            email_exists = self.ids.get(email1)
+
+            id_values = [email2_exists, email_exists]
+            min_id = min(id for id in id_values if id is not None)
+
+        # Assigns the id value to min_id if it exists, otherwise assigns it the next id value available
+        if min_id:
+            id = min_id
+        else:
+            id = self.id
 
         # Checks if a second email column exists
         if self.email_col_2:
             # Checks if value exists in second email column/row, and assigns it as the key
             if row[self.email_col_2]:
-                ids_key = row[self.email_col_2]
-                self.add_key_to_dict(ids_key, self.id)
+                email2 = row[self.email_col_2]
+                self.add_key_to_dict(email2, id)
 
                 # If key exists in dictionary, assign it the row_id
-                if self.ids.get(ids_key):
-                    row_id = self.ids.get(ids_key)
+                if self.ids.get(email2):
+                    row_id = self.ids.get(email2)
 
-        if row[self.email_col] and row_id is None:
-            ids_key = row[self.email_col]
-            self.add_key_to_dict(ids_key, self.id)
-            row_id = self.ids.get(ids_key, self.id)
+        if row[self.email_col]:
+            email1 = row[self.email_col]
+            self.add_key_to_dict(email1, id)
+            row_id = self.ids.get(email1, self.id)
+
+
+        if row_id is None:
+            row_id = self.id
 
         return row_id
 
@@ -90,6 +117,9 @@ class FindMatches(object):
         """ Creates phone tuples and insert unique tuples into the ids dictionary. """
 
         row_id = None
+        phone2 = None
+        phone1 = None
+        min_id = None
 
         def format_phone(column):
             """ Removes formatting of phone numbers for direct comparison. """
@@ -101,21 +131,45 @@ class FindMatches(object):
 
             return format_phone_col
 
+
+        # Check if phone columns exist
+        if self.phone_col_2:
+            phone2 = format_phone(self.phone_col_2)
+        if self.phone_col:
+            phone1 = format_phone(self.phone_col)
+
+        # Check if either email is in ids dictionary, get the value
+        if phone2 in self.ids or phone1 in self.ids:
+            phone2_exists = self.ids.get(phone2)
+            phone_exists = self.ids.get(phone1)
+
+            id_values = [phone2_exists, phone_exists]
+            min_id = min(id for id in id_values if id is not None)
+
+        # Assigns the id value to min_id if it exists, otherwise assigns it the next id value available
+        if min_id:
+            id = min_id
+        else:
+            id = self.id
+
         #  Checks if a second phone column exists
         if self.phone_col_2:
             # Checks if value exists in second phone column/row, and assigns it as the key
             if row[self.phone_col_2]:
                 ids_key = format_phone(self.phone_col_2)
-                self.add_key_to_dict(ids_key, self.id)
+                self.add_key_to_dict(ids_key, id)
 
                 # If key exists in dictionary, assign it the row_id
                 if self.ids.get(ids_key):
                     row_id = self.ids.get(ids_key)
 
-        if row[self.phone_col] and row_id is None:
+        if row[self.phone_col]:
             ids_key = format_phone(self.phone_col)
-            self.add_key_to_dict(ids_key, self.id)
+            self.add_key_to_dict(ids_key, id)
             row_id = self.ids.get(ids_key, self.id)
+
+        if row_id is None:
+            row_id = self.id
 
         return row_id
 
@@ -153,10 +207,12 @@ class FindMatches(object):
                 row_id = self.email_match(row)
 
 
+
             # If the matching type is 'phone'
             elif self.matching_type == 'phone':
                 # See if a second phone column exists
                 row_id = self.phone_match(row)
+                print 'rowwwwwwww', row_id
 
 
             # If the matching type is email OR phone
@@ -236,6 +292,7 @@ class FindMatches(object):
                         self.add_key_to_dict(ids_key, self.id)
                         row_id = self.ids.get(ids_key, self.id)
 
+            print self.ids
             new_row = [row_id] + row
             writer.writerow(new_row)
 
