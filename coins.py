@@ -19,22 +19,27 @@ def coins(num_coins):
     True
     """
 
-    dime = 10
-    penny = 1
 
-    def total(total=0):
-        total = total + dimes*10 + pennies
-        total(total + dime, total + penny)
-
-    change = set()
+    combos = set()
+    coins = [1, 10]
 
 
+    def _coins(coins_left, combos, total):
 
-    if num_coins == 0:
-        return change
+        if not coins_left:
+            combos.add(total)
+            return
+
+        for coin in coins:
+            _coins(coins_left - 1, combos, total + coin)
+
+    _coins(num_coins, combos, 0)
 
 
-    coins(num_coins - 1)
+    return combos
+
+
+
 
 
 if __name__ == '__main__':
