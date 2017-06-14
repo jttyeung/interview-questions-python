@@ -11,6 +11,9 @@ def most_frequent_word(str):
     hello is joanne my name
     """
 
+    # time: O(n log n)
+    # space: O(n)
+
     words = {}
     list_of_words = str.split()
 
