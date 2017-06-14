@@ -7,3 +7,8 @@ def merge_ranges(lst):
     """
 
 
+if __name__ == '__main__':
+    import docttest
+    results = docttest.testmod()
+    if not results.failed:
+        print 'All tests passed!'
