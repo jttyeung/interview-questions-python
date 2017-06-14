@@ -1,18 +1,32 @@
 def most_frequent_word(str):
-    """ Find k most frequent words in a string of words.
+    """ Find k most frequent words in a string of words, and print them in space-separated alphabetical order.
 
     >>> most_frequent_word('hello my name is hello joanne')
-    'hello'
+    hello
 
     >>> most_frequent_word('hello my name is hello joanne is')
-    'hello', 'is'
+    hello is
 
     >>> most_frequent_word('hello my name is joanne')
-    None
+    hello is joanne my name
     """
 
-    
+    words = {}
+    list_of_words = str.split()
 
+    for word in list_of_words:
+        words[word] = words.get(word, 0) + 1
+
+    most_frequent_words = []
+
+    max_value = max(words.values())
+
+    for word, value in words.iteritems():
+        if value == max_value:
+            most_frequent_words.append(word)
+
+    for word in sorted(most_frequent_words):
+        print word,
 
 
 
