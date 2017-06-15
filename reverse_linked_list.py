@@ -26,7 +26,7 @@ class Node(object):
 
 
 def reverse_linked_list(head):
-    """Given LL head node, return head node of new, reversed linked list.
+    """Given singly linked list head node, return head node of new, reversed linked list.
 
     >>> ll = Node(1, Node(2, Node(3)))
     >>> reverse_linked_list(ll).as_string()
@@ -38,15 +38,25 @@ def reverse_linked_list(head):
     '321'
     """
 
-    current = head
+    prev = None
+    curr = head
 
-    while current.next is not None:
-        current = current.next
+    while curr:
+        next = curr.next
+        curr.next = prev
+        prev = curr
+        curr = next
 
-    new_ll = Node(current)
 
-    while current.next is not None:
-        new_ll
+    return prev
+
+
+
+
+
+
+
+
 
 
 
