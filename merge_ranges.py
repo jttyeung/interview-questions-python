@@ -37,13 +37,9 @@ def merge_ranges(lst):
     n = 0
     start = 0
 
-    while start < len(set_times):
+    while start < len(set_times) - 1:
         a = set_times[start][n]
         b = set_times[start][n+1]
-
-        # if (a, b) == set_times[-1]:
-        #     merged_range.append((a, b))
-        #     break
 
         for i, t in enumerate(set_times):
             if b >= t[0] and t[1] >= b:
