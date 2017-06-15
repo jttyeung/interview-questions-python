@@ -1,4 +1,4 @@
-def make_change(amount, denominations):
+def make_change(amount, denominations, index=0):
     """ Write a function that, given:
         1. an amount of money
         2. a list of coin denominations
@@ -24,9 +24,24 @@ def make_change(amount, denominations):
     # space:
 
 
+    if amount == 0:
+        return 1
 
+    if amount < 0:
+        return 0
 
+    if index == len(denominations):
+        return 0
 
+    current_coin = denominations[index]
+
+    combos = 0
+
+    while amount >=0:
+        combos += make_change(amount, denominations, index+1)
+        amount -=current_coin
+
+    return combos
 
 
 
