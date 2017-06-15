@@ -30,25 +30,43 @@ def merge_ranges(lst):
     # time: O(nlogn)
     # space: O(n)
 
-    set_times = sorted(lst)
+# ------------------------------------
+# code below does not work
 
-    merged_range = []
+    # set_times = sorted(lst)
 
-    n = 0
-    start = 0
+    # merged_range = []
 
-    while start < len(set_times) - 1:
-        a = set_times[start][n]
-        b = set_times[start][n+1]
+    # n = 0
+    # start = 0
 
-        for i, t in enumerate(set_times):
-            if b >= t[0] and t[1] >= b:
-                b = t[1]
-                start = i + 1
-            n = i + 1
+    # while start < len(set_times) - 1:
+    #     a = set_times[start][n]
+    #     b = set_times[start][n+1]
 
-        n = 0
-        merged_range.append((a, b))
+    #     for i, t in enumerate(set_times):
+    #         if b >= t[0] and t[1] >= b:
+    #             b = t[1]
+    #             start = i + 1
+    #         n = i + 1
+
+    #     n = 0
+    #     merged_range.append((a, b))
+
+# ------------------------------------
+
+    meeting_times = sorted(lst)
+
+    merged_range = [meeting_times[0]]
+
+
+    for start, end in meeting_times[1:]:
+        last_start, last_end = merged_range[-1]
+
+        if last_end >= start:
+            merged_range[-1] = (last_start, max(last_end, end))
+        else:
+            merged_range.append((start, end))
 
 
 
