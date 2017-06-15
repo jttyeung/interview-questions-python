@@ -12,6 +12,12 @@ def merge_ranges(lst):
 
     >>> merge_ranges([(0, 3), (3, 5)])
     [(0, 5)]
+
+    >>> merge_ranges([(0, 3), (3, 5), (7, 8)])
+    [(0, 5), (7, 8)]
+
+    >>> merge_ranges([(1, 5), (2, 3)])
+    [(1, 5)]
     """
 
     # if each tuple is (x, y),
@@ -20,38 +26,75 @@ def merge_ranges(lst):
         # otherwise, add that tuple to a new list
         # and look at the next lowest min
 
-    # sorted_times = sorted(lst)
 
+    # time: O(nlogn)
+    # space: O(n)
 
-
-
-    # for i, t in enumerate(sorted_times):
-    #     x = t[0]
-    #     y = t[1]
-    #     if min(x) == x:
-    #         if y >= x:
-    #             x ==
-
-    set_lst = set(lst)
+    set_times = sorted(lst)
 
     merged_range = []
 
-    for i, t in enumerate(set_lst):
-        start = min(set_lst)
-        x, y = start
+    n = 0
+    start = 0
 
-        if y >= t[1]:
-            y = t[0]
-        else:
-            merged_range.append((x,y))
-            set_lst.remove(t)
+    while start < len(set_times):
+        a = set_times[start][n]
+        b = set_times[start][n+1]
 
-    # set_lst = set(([(3, 5), (4, 8), (10, 12), (9, 10), (0, 1)]))
-    # i = 0
-    # t = (3, 5)
-    # start = (0, 1)
-    # x = 0, y = 1
-    # if 1 >= 0
+        if (a, b) == set_times[-1]:
+            merged_range.append((a, b))
+            break
+
+        for i, t in enumerate(set_times):
+            if b >= t[0] and t[1] >= b:
+                b = t[1]
+                start = i + 1
+            n = i + 1
+
+        n = 0
+        merged_range.append((a, b))
+
+
+
+
+    # set_times = [(0, 3), (3, 5)]
+    # len = 2
+    # n = 0
+    # a = 0
+    # b = 3
+    # t[0] = 0, t[1] = 3
+    # n = 1
+    # t[0] = 3, t[1] = 5
+    # 3 >= 3:
+    # b = 5
+    # n = 2
+    # merged_range = [(0, 5)]
+
+
+    # set_times = [(0, 3), (3, 5), (7, 8)]
+    # len = 3
+    # n = 0
+    # start = 0
+    # a = 0
+    # b = 3
+    # t[0] = 0, t[1] = 3
+    # n = 1
+    # t[0] = 3, t[1] = 5
+    # 3 >= 3:
+    # b = 5
+    # start = 2
+    # n = 2
+    # t[0] = 7, t[1] = 8
+    # n = 0
+    # merged_range = [(0, 5)]
+    # start 2 < 3 len
+    # a = 7
+    # b = 8
+    #
+
+
+
+
 
 
 
