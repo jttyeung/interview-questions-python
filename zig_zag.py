@@ -50,8 +50,11 @@ def zigzag(a):
 
     """
 
+    # time: O(n)
+    # space: O(1)
+
     longest = 1
-    subarray = [a[0]]
+    curr_length = 1
 
     if len(a) == 2 and a[0] != a[1]:
         return len(a)
@@ -64,17 +67,16 @@ def zigzag(a):
 
         if (prev < curr and curr > nxt) or (prev > curr and curr < nxt):
             if nxt == a[-1]:
-                subarray.append(curr)
-                subarray.append(nxt)
+                curr_length += 2
             else:
-                subarray.append(curr)
+                curr_length += 1
 
-            longest = max(longest, len(subarray))
+            longest = max(longest, curr_length)
 
         else:
-            subarray.append(prev)
-            longest = max(longest, len(subarray))
-            subarray = [a[i]]
+            curr_length += 1
+            longest = max(longest, curr_length)
+            curr_length = 1
 
     return longest
 
@@ -107,6 +109,9 @@ def zigzag_recursive(a):
     1
 
     """
+
+    # time: O(n)
+    # space: O(n)
 
 
     if len(a) < 2:
