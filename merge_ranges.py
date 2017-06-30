@@ -20,20 +20,13 @@ def merge_ranges(lst):
     [(1, 5)]
     """
 
-    # if each tuple is (x, y),
-    # find the min x, and see if its y matches any other x.
-        # if it does, then look at that y, and see if it is >= an x
-        # otherwise, add that tuple to a new list
-        # and look at the next lowest min
-
-
     # time: O(nlogn)
     # space: O(n)
+
 
     meeting_times = sorted(lst)
 
     merged_range = [meeting_times[0]]
-
 
     for start, end in meeting_times[1:]:
         last_start, last_end = merged_range[-1]
