@@ -1,0 +1,2 @@
+""" Create a hash map. """
+
