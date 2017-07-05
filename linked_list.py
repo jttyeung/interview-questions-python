@@ -17,7 +17,7 @@ class LinkedList(object):
         self.tail = tail
 
     def insert(self, data, position):
-        """ Takes data and a position and adds it to the linked list as a node before that position. """
+        """ Takes data as an input and a position and adds it to the linked list as a node before that position. """
 
         new_node = Node(data)
 
@@ -30,9 +30,9 @@ class LinkedList(object):
             self.tail = new_node
 
 
-        prev = self.head
-        curr = self.head.next
-        index = 1
+        prev = None
+        curr = self.head
+        index = 0
 
         while curr.next:
             if position == index:
@@ -45,6 +45,8 @@ class LinkedList(object):
 
 
     def size(self):
+        """ Returns the length of the linked list. """
+
         size = 0
 
         if head is None and tail is None:
@@ -59,9 +61,40 @@ class LinkedList(object):
         return size
 
 
-    def search(self):
-        pass
+    def search(self, data):
+        """ Takes data as an input and returns the node holding the data. """
+
+        curr = self.head
+
+        while curr:
+            if curr.data == data:
+                return curr
+            curr = curr.next
+
+        raise ValueError('Data not in linked list.')
 
 
-    def delete(self):
-        pass
+    def delete(self, data):
+        """ Takes data as an input and deletes the node with that data. """
+
+        prev = None
+        curr = self.head
+
+        while curr:
+            if curr.data == data:
+                if curr == self.head:
+                    self.head = curr.next
+                else:
+                    prev.next = curr.next
+
+            prev = curr
+            curr = curr.next
+
+        if curr is None:
+            raise ValueError('Data not in linked list.')
+
+
+
+
+
+
