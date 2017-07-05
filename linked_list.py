@@ -25,11 +25,16 @@ class LinkedList(object):
             new_node.next = self.head
             self.head = new_node
 
+        if position == self.size():
+            self.tail.next = new_node
+            self.tail = new_node
+
+
         prev = self.head
         curr = self.head.next
         index = 1
 
-        while curr:
+        while curr.next:
             if position == index:
                 prev.next = new_node
                 new_node.next = curr
@@ -40,7 +45,18 @@ class LinkedList(object):
 
 
     def size(self):
-        pass
+        size = 0
+
+        if head is None and tail is None:
+            return size
+
+        curr = self.head
+
+        while curr:
+            size += 1
+            curr = curr.next
+
+        return size
 
 
     def search(self):
