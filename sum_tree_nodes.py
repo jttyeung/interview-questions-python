@@ -27,6 +27,16 @@ def num_nodes(tree):
         6
     """
 
+    nodes = 1
+
+    if tree is None:
+      return 0
+
+    for child in tree.children:
+      nodes += num_nodes(child)
+
+
+    return nodes
 
 
 
