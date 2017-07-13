@@ -22,3 +22,8 @@ class test_solutions(unittest.TestCase):
         self.assertFalse(has_balanced_brackets(">"))
         self.assertFalse(has_balanced_brackets("(This has {too many} ) closers. )"))
         self.assertFalse(has_balanced_brackets("<{Not Ok>}"))
+
+
+
+if __name__ == "__main__":
+    unittest.main()
