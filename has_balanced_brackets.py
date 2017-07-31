@@ -7,6 +7,30 @@ def has_balanced_brackets(phrase):
     Given a string as input, return True or False depending on whether the
     string contains balanced (), {}, [], and/or <>.
     """
+    brackets = {
+                ']': '[',
+                '}': '{',
+                '[': '[',
+                '>': '<',
+                ')': '('
+                }
+    open_brackets = set(['[', '{', '[', '<', '('])
+    close_brackets = set([']', '}', ']', '>', ')'])
+    seen = []
+
+    for let in phrase:
+        if let in open_brackets:
+            seen.append(let)
+        if let in close_brackets:
+            if seen != [] and brackets[let] == seen[-1]:
+                seen.pop()
+            else:
+                return False
+
+
+    if seen == []:
+        return True
+
 
 
 class test_solutions(unittest.TestCase):
