@@ -7,20 +7,11 @@ class TaskHandler(object):
 
     def __init__(self):
 
-        # Ships must dock first, then vessel can be unloaded, then a truck can
-        # load a container, and lastly it needs to go through a customs check
-        # The refueling process can happen anytime after a ship docks
-
-        # self._task_order = [
-        #                     ['SHIP DOCKING',
-        #                     'UNLOADING VESSEL',
-        #                     'TRUCK LOADING CONTAINER',
-        #                     'CUSTOMS CHECK'],
-
-        #                     ['SHIP DOCKING',
-        #                     'RE-FUEL SHIP']
-        #                     ]
-        # self._task_order = Node('CUSTOMS CHECK', Node('TRUCK LOADING CONTAINER', Node('UNLOADING VESSEL', Node('SHIP DOCKING')))
+        """
+        Ships must dock first, then vessel can be unloaded, then a truck can
+        load a container, and lastly it needs to go through a customs check.
+        The refueling process can happen anytime after a ship docks.
+        """
 
         self._task_order = {'RE-FUELING SHIP': ['SHIP DOCKING'],
                             'UNLOADING VESSEL': ['SHIP DOCKING'],
@@ -38,11 +29,13 @@ class TaskHandler(object):
 
 
     def tasks_remaining(self):
+        """ Gets total number of tasks remaining. """
 
         return sum(self.task_list.values())
 
 
     def add_task(self, tasks_array):
+        """ Adds an array of tasks to existing task list. """
 
         for task_file in tasks_array:
             task = open(task_file).read().rstrip()
@@ -50,6 +43,7 @@ class TaskHandler(object):
 
 
     def execute_tasks(self):
+        """ Executes tasks in sensible order. """
 
         for task in self.task_list.keys():
 
@@ -67,7 +61,8 @@ class TaskHandler(object):
 
 
     def check_dependencies(self, task):
-#
+        """ Checks for any task dependencies. """
+
         dependencies_remaining = []
 
         if task in self._task_order:
@@ -85,6 +80,7 @@ class TaskHandler(object):
 
 
     def remove_task(self, task):
+        """ Removes a task from the task list once it has been completed. """
 
         self.task_list[task] -= 1
 
