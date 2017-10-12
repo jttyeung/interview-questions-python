@@ -35,7 +35,7 @@ class MinHeap(object):
     def bubbleUp(self, child):
         parent = self.get_parent(child)
 
-        while (child > 0) and (self.storage[child] < self.storage[parent]):
+        while (child > 0) and parent >= 0 and (self.storage[child] < self.storage[parent]):
             self.swap(child, parent)
             child = parent
             parent = self.get_parent(child)
@@ -54,7 +54,7 @@ class MinHeap(object):
         child2 = 2 * parent + 2
 
         if child1 >= self.size():
-            return child1
+            return
         elif child2 >= self.size():
             return child1
         elif self.storage[child1] < self.storage[child2]:
@@ -66,10 +66,11 @@ class MinHeap(object):
     def bubbleDown(self, parent):
         child = self.get_child(parent)
 
-        while child < self.size() and self.storage[parent] > self.storage[child]:
+        while child is not None and self.storage[parent] > self.storage[child]:
             self.swap(child, parent)
             parent = child
-            self.get_child(parent)
+            child = self.get_child(parent)
+
 
     def remove(self, item):
         last_index = self.size() - 1
@@ -83,10 +84,10 @@ class MinHeap(object):
                 swap_index = i
                 self.storage[i], self.storage[last_index] = self.storage[last_index], self.storage[i]
 
-        removed_item = self.storage.pop()
-
         self.bubbleUp(swap_index)
         self.bubbleDown(swap_index)
+
+        removed_item = self.storage.pop()
 
         return removed_item
 
