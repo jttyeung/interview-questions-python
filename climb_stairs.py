@@ -30,8 +30,8 @@ def climb_stairs_dp(n):
 
 
 def climb_stairs_tab(n, steps):
-    """ A fox needs to climb n number of steps. It can jump up 1 step, 2 steps, or 3 steps at a time. How many possible ways are there to get to the top of n steps? Solve with dynamic programming using the tabulation method. """
-    result = [0 for x in range(steps)]
+    """ A fox needs to climb n number of steps. It can jump up X steps (array of possibilities) at a time. How many possible ways are there to get to the top of n steps? Solve with dynamic programming using the tabulation method. """
+    result = [0 for x in range(n)]
     result[0] = 1
 
     for i in range(len(steps)):
